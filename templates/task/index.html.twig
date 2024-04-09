@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tus tareas{% endblock %}
+
+{% block body %}
+
+{% block javascripts %}
+
+{% endblock %}
+
+
+
+
+
+      <h1> Tus tareas asignadas/realizadas <h1>
+        {% for task in tasks %}       
+           
+              {#  <td><b>{{ noticia.id }}<b></td> #}
+            
+                <h3><b>{{ task.event}}</b></h3>
+                <p>Hora de Comienzo: {{task.getStartTime| date ('y-M-d H:m')}}</p>
+                <p>Hora de Fin: {{task.getEndTime| date ('y-M-d H:m')}}</p>
+
+
+              {#  <p>Estado reques : {{task.state_request}}</p>
+               
+                <p>Estado: {{task.start_time | date ('d/m/y')}}</p> #}
+
+              
+
+             {#  
+
+             <form method="POST" action="#">
+                        <input role="button" class="BotonMargenIz btn btn-success" onclick="return confirm('¿Vas de modificar una tarea?')" class="BotonMargenIz" type="submit" value="Editar tarea"> </p>
+                    </form>
+                     #}
+                 
+             {% endfor %}  
+
+
+        
+             
+
+{% endblock %}

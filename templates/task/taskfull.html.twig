@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TaskController!{% endblock %}
+
+
+
+{% block body %}
+
+{% block javascripts %}
+
+{#
+<script src='js/index.global.min.js'></script>
+<script src='js/index.js' ></script>    #}
+{% endblock %}
+
+{#
+<div id="calendar"></div>
+#}
+
+
+
+   {# 
+<table class="table">
+        <thead>
+         
+            <tr>
+                     
+              
+              
+                <th>Id</th>
+                <th>Estado</th>  
+              
+               <th>Desc</th>
+                {# <th>Autor </th> 
+               
+            </tr>
+        
+       #}
+<div class="margenLeft">
+     <h2> Día de hoy {{hoy| date ('y-M-d')}} pendientes de respuesta </h2>   
+           <table class="table table-striped">
+      <tr>
+                <th>Tarea ID</th>
+                <th>Estado:</th>
+                <th>Estado Request:</th>
+                <th>User </th>
+                <th>Evento</th>
+                <th>Hora de Comienzo</th> 
+                <th>Hora de Fin:</th>
+                <th> Acción<th>
+                </tr>
+       
+       
+        {% for task in tasks %}       
+
+        
+  
+
+        {#    {% if  hoy| date ('y-M-d')==task.getStartTime| date ('y-M-d') %} #}
+    
+      
+        {% if  task.state== 0 %}
+      
+              {% if app.user.username == task.user  %}
+              {#  <td><b>{{ noticia.id }}<b></td> #}
+            
+                <tr>
+                <td>{{ task.id}}</td>
+                <td>{{task.state}}</td>
+                <td>{{task.getStateRequest}}</td>
+                <td> {{task.user}}</td>
+                <td> {{task.event}}</td>
+                <td> {{task.getStartTime| date ('y-M-d H:m')}}</td> 
+                <td> {{task.getEndTime| date ('y-M-d H:m')}}</td>
+                <td><form method="POST" action="#">
+                        <input role="button" class="BotonMargenIz btn btn-success" onclick="return confirm('¿Vas de modificar una tarea?')" class="BotonMargenIz" type="submit" value="Editar tarea"> </p>
+                    </form> <td>
+
+                </tr>
+         
+      {% endif %}
+        
+{# }
+        {% elseif  tomorrow | date ('y-M-d')==task.getStartTime| date ('y-M-d') %}
+       
+      
+         <h2> Tareas de mañana,  {{tomorrow| date ('y-M-d')}} </h2>
+      
+                <h3>Tarea ID:<b>{{ task.id}}</b></h3>
+                <p>Estado: {{task.state}}</p>
+                <p>Estado Request: {{task.getStateRequest}}</p>
+                <p>User: {{task.user}}</p>
+                <p>Evento: {{task.event}}</p>
+                <p>Hora de Comienzo: {{task.getStartTime| date ('y-M-d H:m')}}</p> 
+                <p>Hora de Fin: {{task.getEndTime| date ('y-M-d H:m')}}</p>
+
+                <form method="POST" action="#">
+                        <input role="button" class="BotonMargenIz btn btn-success" onclick="return confirm('¿Vas de modificar una tarea?')" class="BotonMargenIz" type="submit" value="Editar tarea"> </p>
+                    </form>
+
+
+#}
+
+        {% endif %}
+
+
+        
+            
+        
+                 
+             {% endfor %}  
+ </table>
+           
+</div>             
+          
+
+{% endblock %}

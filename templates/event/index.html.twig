@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Eventos</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha inicio</th>
+                <th>Fecha fin</th>
+                <th>Horario previsto</th>
+                <th>+ info</th>
+                <th>Formulario</th>
+                <th>Nº Trabajadores</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>Acciones</th>
+                {% endif %}
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.name }}</td>
+                <td>{{ event.startDate ? event.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ event.startDate ? event.endDate|date('Y-m-d') : '' }}</td>
+                <td>{{ event.schedule }}</td>
+                <td><a href="{{ event.linkInformation }}"><strong>+</strong></a></td>
+                <td><a href="{{ event.linkForm }}"><strong>+</strong></a></td>
+                <td>{{ event.workersNumber }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a href="{{ path('app_event_show', {'id': event.id}) }}">Ver</a>
+                    <a href="{{ path('app_event_edit', {'id': event.id}) }}">Editar</a>
+                    <a href="{{ path('app_event_report', {'id': event.id}) }}">Informe</a>
+                </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">No hay eventos</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_event_new') }}">Crear nuevo evento</a>
+    {% endif %}
+
+{% endblock %}

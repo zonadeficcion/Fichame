@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Horas extra{% endblock %}
+
+
+
+{% block body %}
+
+
+{% for task in tasks %}
+<form action="{{ path('app_task_edit_extra', {'id': task.id})}}">
+    {{task.id}} Horas Extra: {{task.getExtraTime}}
+    <input type="number" name="extra_time" min="0" max="10">
+	<button type="button">Modificar Hora Extra</button></a>
+</form>
+
+{% endfor %}
+
+
+
+{% endblock %}

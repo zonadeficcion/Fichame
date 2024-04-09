@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Calendario de Almacén{% endblock %}
+
+
+
+{% block body %}
+
+{% block javascripts %}
+<script src='js/index.global.min.js'></script>
+  
+{% endblock %}
+
+<div id="calendar"></div>
+{% block scripts %}
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'es',
+      events: [
+        {% for tarea in tareas %}
+            {
+                id: {{tarea.id}},
+                title: "{{tarea.event.name}}",
+                start: '{{tarea.starttime  | date('Y-m-d')}}',
+                end: '{{ tarea.endtime|date_modify("+1 day")|date("Y-m-d") }}',
+                url: '/task/{{tarea.id}}',
+                textColor: 'black',
+                {% if tarea.type == 0 %}
+                  backgroundColor: 'rgb(22, 208, 84)',
+                {% elseif tarea.type == 1 %}
+                  backgroundColor: 'rgb(22, 208, 204)',
+                {% else %}
+                  backgroundColor: 'rgb(208, 190, 22)',
+                {% endif %}
+            },
+        {% endfor %}
+      ]
+
+    });
+    calendar.render();
+
+    var $title = document.querySelector('#calendar div:nth-of-type(2)');
+    $title.innerHTML = '<a class="h2" href="{{path("app_monthly")}}">Análisis mensual</a>  <a class="h2" href="{{path("app_warehouse_vacation")}}">Fichar Vacaciones</a>';
+  });
+</script>
+{% endblock %}
+
+{% endblock %}

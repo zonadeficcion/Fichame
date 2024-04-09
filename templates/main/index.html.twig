@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{% if app.user %}
+{{app.user.company.title}}
+{% endif %}
+{% endblock %}
+
+{% block body %}
+{% set showMessage = true %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div
+		class="example-wrapper">
+
+		<h1>Eventos y tareas pendientes</h1>
+		{% if app.user %}
+
+			Hola 
+			{{ app.user.username  }},
+			<a href="{{ path('app_logout') }}">Logout</a>
+
+		{% else %}
+			<a href="/login">Login
+			</a>
+
+		{% endif %}
+
+		{% if is_granted("ROLE_ADMIN")%}
+			-
+			<a href="{{path('app_ seeTaskToday') }}">
+				Ver tareas de hoy</a>
+		{% endif %}
+
+
+		<br><br>
+
+		
+
+		{% if app.user %}
+
+			{% for task in taskAsignments %}
+
+				<ul>
+					<li>
+						Nombre de la tarea:{{task.Event.name}}<br>
+
+						{% if (task.isState()== 1 and task.getStateRequest()==1 and task.getStartTime()== NULL) %}
+
+							<a href="{{ path('app_task_update_State', {'id': task.id}) }}">
+								<button type="button">Comenzar Tarea</button>
+							</a>
+
+						{% else %}
+
+							<form action="{{ path('app_task_update_State', {'id': task.id}) }}">
+
+								<a>
+									<button type="submit">Terminar Tarea</button>
+								</a>
+								<input type="number" placeholder="Tiempo de Descanso" name="breakHours"/>
+
+							</form>
+							{% set showMessage = false %}
+
+						{% endif %}
+
+
+					</li>
+
+
+				</ul>
+
+
+			{% endfor %}
+
+			{% if showMessage %}
+
+				{% if is_granted("ROLE_ALMACEN")%}
+
+          <a href="{{path('app_event_newAlmacen') }}">
+          Almacen</a>
+				
+				{% endif %}
+
+			{% endif %}
+									<a href="{{ path('app_seeAsignedTasks')}}"> 
+
+									<button type="button" style="margin: 20px;">VER HISTÓRICO TAREAS</button>
+
+
+			{% for task in tasks %}
+
+				<ul>
+					<li>
+						Nombre:{{task.event.name}}<br>
+
+						<a href="{{ path('app_task_edit_State_request', {'id': task.id, 'state_request': 1}) }}">
+							<button type="button">ACEPTAR</button>
+						</a>
+						<a href="{{ path('app_task_edit_State_request', {'id': task.id, 'state_request': 0}) }}">
+						<a href="{{ path('app_task_edit_State_request', {'id': task.id, 'state_request': 0}) }}">
+							<button type="button">RECHAZAR</button>
+						</a>
+
+						
+
+
+					</li>
+			{% endfor %}
+		{% endif %}
+
+</div>
+
+		
+
+
+	</div>
+{% endblock %}
